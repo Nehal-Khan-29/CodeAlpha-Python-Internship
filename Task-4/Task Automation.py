@@ -25,6 +25,11 @@ extension_to_folder = {
 def main():
     global destination_dir, source_dir
     
+    if destination_dir == "":
+        messagebox.showerror("Error", "Destination Directory not selected")
+    if source_dir == "":
+        messagebox.showerror("Error", "Source Directory not selected")
+    
     for folder in extension_to_folder.values():
         folder_path = os.path.join(destination_dir, folder)
         os.makedirs(folder_path, exist_ok=True)
