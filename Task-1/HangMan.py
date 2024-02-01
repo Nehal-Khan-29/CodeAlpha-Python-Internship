@@ -63,7 +63,7 @@ while error_count < error_limit:
     os.system('cls')
     print("\nThe Error limit: 4")
     print("Your Error count: ", error_count)
-    print(random_word)
+    #print(random_word)
     print(x0)
     print("\n",string)
     enter_letter = input("\n\nEnter a letter: ")
@@ -88,17 +88,17 @@ while error_count < error_limit:
         elif error_count == 4:
             x0=x4
             os.system('cls')
-            print(x0)
+            print('\033[31m' + x0 + '\033[0m')
             print("\n",string)
-            print("\n",random_word)
-            print("\nYou Lose !!! You failed Him")
+            print("\n",'\033[34m' + random_word + '\033[0m')
+            print('\033[31m'+"\nYou Lose !!! You failed Him"+ '\033[0m')
     
     if string == random_word:
         os.system('cls')
         print("\nThe Error limit: 4")
         print("Your Error count: ", error_count)
-        print(x0)
-        print("\n",string)
-        print("\nYou win !!! You saved Him\n")
+        print('\033[32m' + x0+'\033[0m')
+        print("\n",'\033[34m' + string+'\033[0m')
+        print('\033[32m'+"\nYou win !!! You saved Him\n"+ '\033[0m')
         break
     
