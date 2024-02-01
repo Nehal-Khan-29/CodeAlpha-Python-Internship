@@ -8,6 +8,11 @@ from PIL import ImageTk, Image
 import os
 import shutil
 
+# Folders ========================================================================================================
+
+source_dir = ""
+destination_dir = ""
+
 # Extension ========================================================================================================
 
 extension_to_folder = {
@@ -25,29 +30,34 @@ extension_to_folder = {
 def main():
     global destination_dir, source_dir
     
-    if destination_dir == "":
-        messagebox.showerror("Error", "Destination Directory not selected")
-    if source_dir == "":
-        messagebox.showerror("Error", "Source Directory not selected")
-    
-    for folder in extension_to_folder.values():
-        folder_path = os.path.join(destination_dir, folder)
-        os.makedirs(folder_path, exist_ok=True)
+    try:
+        if destination_dir == "":
+            messagebox.showerror("Error", "Destination Directory not selected")
+            return
+        if source_dir == "":
+            messagebox.showerror("Error", "Source Directory not selected")
+            return
+        
+        for folder in extension_to_folder.values():
+            folder_path = os.path.join(destination_dir, folder)
+            os.makedirs(folder_path, exist_ok=True)
 
-    for filename in os.listdir(source_dir):
-        source_file_path = os.path.join(source_dir, filename)
-        
-        name, extension = os.path.splitext(filename)
-        extension = extension[1:]
-        
-        if extension in extension_to_folder:
-            destination_folder = extension_to_folder[extension]
-            destination_path = os.path.join(destination_dir, destination_folder, filename)
+        for filename in os.listdir(source_dir):
+            source_file_path = os.path.join(source_dir, filename)
             
-            shutil.move(source_file_path, destination_path)
+            name, extension = os.path.splitext(filename)
+            extension = extension[1:]
             
-    messagebox.showinfo("Success", "File Automation successful!")
-            
+            if extension in extension_to_folder:
+                destination_folder = extension_to_folder[extension]
+                destination_path = os.path.join(destination_dir, destination_folder, filename)
+                
+                shutil.move(source_file_path, destination_path)
+                
+        messagebox.showinfo("Success", "File Automation successful!")
+    except Exception as e:
+        messagebox.showerror("Error", f"An error occurred: {str(e)}")
+
             
 root = tk.Tk()
 root.title('Task Automation')
