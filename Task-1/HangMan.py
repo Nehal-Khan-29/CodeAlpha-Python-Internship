@@ -2,7 +2,8 @@
 
 from random_word import RandomWords
 import os
-import keyboard
+import nltk
+from nltk.corpus import wordnet
 
 # Variables =================================================================================================================
 
@@ -67,6 +68,34 @@ x5="""
 
 # Game =================================================================================================================
 
+def get_meaning(word):
+    synsets = wordnet.synsets(word)
+    if synsets:
+        meanings = {}
+        for synset in synsets:
+            part_of_speech = synset.pos()
+            if part_of_speech not in meanings:
+                meanings[part_of_speech] = []
+            meanings[part_of_speech].append(synset.definition())
+        return meanings
+    else:
+        return None
+
+meaning = get_meaning(random_word)
+if meaning:
+    for part_of_speech, definitions in meaning.items():
+        print(f"{part_of_speech.capitalize()}:")
+        for definition in definitions:
+            mean = f'Meaning - {definition}'
+else:
+    mean = "Meaning of the word not found in the dictionary."
+    '''while mean == "Meaning of the word not found in the dictionary.":
+        random_word = RandomWords().get_random_word()
+        if get_meaning(random_word) == None:
+            mean = "Meaning of the word not found in the dictionary."
+    meaning = get_meaning(random_word)'''
+
+
 for i in range(len(random_word)):
     answer.append("_")
     string+="_"
@@ -77,7 +106,8 @@ while error_count < error_limit:
     print("Your Error count: ", error_count)
     print("Word Length: ", leng)
     print("Your Error Letters: ", wrong)
-    #print(random_word)
+    print('\033[34m' + mean+'\033[0m')
+    #nprint(random_word)
     print(x0)
     print("\n",string)
     enter_letter = input("\n\nEnter a letter: ")
@@ -106,7 +136,8 @@ while error_count < error_limit:
             print("Your Error Letters: ", wrong)
             print('\033[31m' + x0 + '\033[0m')
             print("\n",string)
-            print("\n",'\033[34m' + random_word + '\033[0m')
+            print('\033[34m' + mean+'\033[0m')
+            print('\033[34m' + random_word + '\033[0m')
             print('\033[31m'+"\nYou Lose !!! You failed Him"+ '\033[0m')
     
     if string == random_word:
@@ -115,6 +146,7 @@ while error_count < error_limit:
         print("Your Error count: ", error_count)
         print("Word Length: ", leng)
         print("Your Error Letters: ", wrong)
+        print('\033[34m' + mean+'\033[0m')
         print('\033[32m' + x5+'\033[0m')
         print("\n",'\033[34m' + string+'\033[0m')
         print('\033[32m'+"\nYou win !!! You saved Him\n"+ '\033[0m')
